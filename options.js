@@ -1,26 +1,35 @@
+async function loadSettings(formElement, storageArea) {
+  const data = await storageArea.get()
+  for (let key in data) {
+    let element = formElement.querySelector('#' + key)
+    if (element) {
+      element.value = data[key]
+    }
+  }
+}
+
+async function saveSettings(formElement, storageArea) {
+  let formdata = {}
+  for (let element of formElement.elements) {
+    console.log(element);
+    formdata[element.name] = element.value
+  }
+  console.log('saving fromdata', formdata)
+  await storageArea.set(formdata)
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
   // Load current settings from local store
-  browser.storage.local.get().then((res) => { 
-    if (res.api_key)
-      document.querySelector('#api_key').value = res.api_key
-    if (res.default_project)
-      document.querySelector('#default_project').value = res.default_project
-    if (res.default_tags)
-      document.querySelector('#default_tags').value = res.default_tags
-  });
-
+  const form = document.querySelector('#optionsForm')
+  const store = browser.storage.local
+  loadSettings(form, store)
 
   // Override the form submit to store the settings
-  document.querySelector('#optionsForm').addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    const formdata = {
-      api_key: document.querySelector('#api_key').value,
-      default_project: document.querySelector('#default_project').value,
-      default_tags: document.querySelector('#default_tags').value
-    }
-      
-    browser.storage.local.set(formdata);
-    // TODO Print some kind of message saying save succeeded
-  });
-});
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault()
+    saveSettings(form, store)
+   // TODO Print some kind of message saying save succeeded
+  })
+})
 

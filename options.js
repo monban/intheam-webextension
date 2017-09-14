@@ -16,18 +16,32 @@ async function saveSettings(formElement, storageArea) {
   await storageArea.set(formdata)
 }
 
+function fadeOut(element) {
+  element.style.opacity -= 0.1
+  if (element.style.opacity > 0) {
+    setTimeout(() => fadeOut(element), 25);
+  }
+}
+
+function flashMessage(element, message) {
+  element.innerHTML = message
+  element.style.opacity = 1
+  setTimeout(() => fadeOut(element), 500)
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   // Load current settings from local store
   const form = document.querySelector('#optionsForm')
   const store = browser.storage.local
+  const messageArea = document.querySelector('#message_area')
+  console.log(messageArea);
   loadSettings(form, store)
 
   // Override the form submit to store the settings
   form.addEventListener('submit', (evt) => {
     evt.preventDefault()
     saveSettings(form, store)
-   // TODO Print some kind of message saying save succeeded
+    flashMessage(messageArea, 'Saved')
   })
 })
 

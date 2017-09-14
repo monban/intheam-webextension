@@ -3,6 +3,10 @@
   "name": "inthe.am integration",
   "description": "Create inthe.am tasks directly from your browser",
   "version": "0.1",
+  "icons": {
+    "48": "icons/logo-48.png",
+    "96": "icons/logo-96.png"
+  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],

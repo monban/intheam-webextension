@@ -1,8 +1,7 @@
 async function createTask(taskdata) {
-  console.log('creating task: ', taskdata);
   const result = await browser.storage.local.get('api_key')
   if (!result.api_key) {
-    console.log('api_key not set')
+    browser.runtime.openOptionsPage()
     return
   }
   let xhr = new XMLHttpRequest();

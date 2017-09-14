@@ -11,10 +11,8 @@ async function loadSettings(formElement, storageArea) {
 async function saveSettings(formElement, storageArea) {
   let formdata = {}
   for (let element of formElement.elements) {
-    console.log(element);
     formdata[element.name] = element.value
   }
-  console.log('saving fromdata', formdata)
   await storageArea.set(formdata)
 }
 

@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector('#optionsForm')
   const store = browser.storage.local
   const messageArea = document.querySelector('#message_area')
-  console.log(messageArea);
   loadSettings(form, store)
 
   // Override the form submit to store the settings

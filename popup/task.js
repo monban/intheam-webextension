@@ -13,6 +13,11 @@ async function createTask(taskdata) {
   showPending()
 }
 
+async function getSeletedText(tab) {
+  const res = await browser.tabs.sendMessage(tab.id, 'foo')
+  return res.data
+}
+
 async function populateFields() {
   const defaults = await browser.storage.local.get(['default_project', 'default_tags'])
   const tabs = await browser.tabs.query({active: true, currentWindow: true})
@@ -61,8 +66,30 @@ function submitForm(evt) {
     createTask(taskdata)
 }
 
-document.addEventListener('DOMContentLoaded', function(evt) {
+function importApiKey(key, store) {
+  store.set({api_key: key})
+}
+
+document.addEventListener('DOMContentLoaded', async function(evt) {
+  const activeTab = (await browser.tabs.query({active: true}))[0]
+  const apiKeyUrl = /^https:\/\/inthe.am\/configure.*/
+
+  // inthe.am api keys are 40 characters long, numbers and lower-case letters
+  const apiKeyPattern = /^[a-z\d]{40}$/
+  const selectedText = await getSeletedText(activeTab)
+  const store = browser.storage.local
+
+  // Check if we're on the inthe.am configuration page
+  // and have the api key selected
+  if (apiKeyUrl.test(activeTab.url) && apiKeyPattern.test(selectedText)) {
+    importApiKey(selectedText, store)
+    document.body.innerHTML = 'API key saved'
+    browser.runtime.openOptionsPage()
+    return
+  }
+
   populateFields()
-  document.getElementById('task_form').addEventListener('submit', submitForm)
+  // Override the form submit to store the settings
+  document.querySelector('#task_form').addEventListener('submit', submitForm)
 })
 

@@ -17,9 +17,9 @@
     "page": "options.html"
   },
   "permissions": [
-    "active_tab",
     "https://inthe.am/*",
-    "storage"
+    "storage",
+    "tabs"
   ],
   "browser_action": {
     "default_icon": {

@@ -23,12 +23,12 @@ async function populateFields() {
   const tabs = await browser.tabs.query({active: true, currentWindow: true})
   const activeTab = tabs[0]
   const res = await browser.tabs.sendMessage(activeTab.id, 'foo')
-  document.querySelector('#task_description').value = res.data
+  document.getElementById('task_description').value = res.data
   if (defaults.default_project) {
-    document.querySelector('#task_project').value = defaults.default_project
+    document.getElementById('task_project').value = defaults.default_project
   }
   if (defaults.default_tags) {
-    document.querySelector('#task_tags').value = defaults.default_tags
+    document.getElementById('task_tags').value = defaults.default_tags
   }
 }
 
@@ -59,9 +59,9 @@ function showPending() {
 function submitForm(evt) {
     evt.preventDefault()
     let taskdata = {
-      description: document.querySelector('#task_description').value,
-      project: document.querySelector('#task_project').value,
-      tags: document.querySelector('#task_tags').value.split(/[^\w]+/)
+      description: document.getElementById('task_description').value,
+      project: document.getElementById('task_project').value,
+      tags: document.getElementById('task_tags').value.split(/[^\w]+/)
     }
     createTask(taskdata)
 }
@@ -90,6 +90,6 @@ document.addEventListener('DOMContentLoaded', async function(evt) {
 
   populateFields()
   // Override the form submit to store the settings
-  document.querySelector('#task_form').addEventListener('submit', submitForm)
+  document.getElementById('task_form').addEventListener('submit', submitForm)
 })
 

@@ -1,4 +1,4 @@
-async function loadSettings(formElement, storageArea) {
+async function loadSettings(storageArea) {
   const defaultSettings = {
     default_tags: 'FromTheWeb'
   }
@@ -6,7 +6,7 @@ async function loadSettings(formElement, storageArea) {
   const storedSettings = await storageArea.get()
   const settings = Object.assign({}, defaultSettings, storedSettings)
   for (let key in settings) {
-    let element = formElement.querySelector('#' + key)
+    let element = document.getElementById(key)
     if (element) {
       element.value = settings[key]
     }
@@ -36,10 +36,10 @@ function flashMessage(element, message) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Load current settings from local store
-  const form = document.querySelector('#optionsForm')
+  const form = document.getElementById('optionsForm')
   const store = browser.storage.local
-  const messageArea = document.querySelector('#message_area')
-  loadSettings(form, store)
+  const messageArea = document.getElementById('message_area')
+  loadSettings(store)
 
   // Override the form submit to store the settings
   form.addEventListener('submit', (evt) => {

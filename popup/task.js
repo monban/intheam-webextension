@@ -72,7 +72,7 @@ function importApiKey(key, store) {
 
 document.addEventListener('DOMContentLoaded', async function(evt) {
   const activeTab = (await browser.tabs.query({active: true}))[0]
-  const apiKeyUrl = /^https:\/\/inthe.am\/configure.*/
+  const apiKeyUrl = /^https:\/\/inthe\.am\/configure.*/
 
   // inthe.am api keys are 40 characters long, numbers and lower-case letters
   const apiKeyPattern = /^[a-z\d]{40}$/

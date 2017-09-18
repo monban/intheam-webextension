@@ -5,7 +5,6 @@ async function loadSettings(formElement, storageArea) {
 
   const storedSettings = await storageArea.get()
   const settings = Object.assign({}, defaultSettings, storedSettings)
-  console.log(settings);
   for (let key in settings) {
     let element = formElement.querySelector('#' + key)
     if (element) {

@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "inthe.am integration",
   "description": "Create inthe.am tasks directly from your browser",
-  "version": "0.1",
+  "version": "1.0",
   "icons": {
     "48": "icons/logo-48.png",
     "96": "icons/logo-96.png"

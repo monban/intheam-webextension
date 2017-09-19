@@ -73,11 +73,15 @@ function importApiKey(key, store) {
 document.addEventListener('DOMContentLoaded', async function(evt) {
   const activeTab = (await browser.tabs.query({active: true}))[0]
   const apiKeyUrl = /^https:\/\/inthe\.am\/configure.*/
+  const intheamConfigurationPage = 'https://inthe.am/configure#api'
+  const instructionsElm = document.getElementById('setup-instructions')
+  const formElement = document.getElementById('task_form')
 
   // inthe.am api keys are 40 characters long, numbers and lower-case letters
   const apiKeyPattern = /^[a-z\d]{40}$/
   const selectedText = await getSeletedText(activeTab)
   const store = browser.storage.local
+  const storedSettings = await store.get()
 
   // Check if we're on the inthe.am configuration page
   // and have the api key selected
@@ -88,8 +92,19 @@ document.addEventListener('DOMContentLoaded', async function(evt) {
     return
   }
 
+  // If we don't have a saved API key, display instructions
+  if (!storedSettings.api_key) {
+    browser.tabs.create({
+      active: true,
+      url: intheamConfigurationPage
+    })
+    instructionsElm.style.display = 'block'
+    formElement.style.display = 'none'
+    return
+  }
+
   populateFields()
   // Override the form submit to store the settings
-  document.getElementById('task_form').addEventListener('submit', submitForm)
+  formElement.addEventListener('submit', submitForm)
 })
 

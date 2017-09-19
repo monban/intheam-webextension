@@ -1,5 +1,5 @@
 async function createTask(taskdata) {
-  const result = await browser.storage.local.get('api_key')
+  const result = await browser.storage.sync.get('api_key')
   if (!result.api_key) {
     browser.runtime.openOptionsPage()
     return
@@ -19,7 +19,7 @@ async function getSeletedText(tab) {
 }
 
 async function populateFields() {
-  const defaults = await browser.storage.local.get(['default_project', 'default_tags'])
+  const defaults = await browser.storage.sync.get(['default_project', 'default_tags'])
   const tabs = await browser.tabs.query({active: true, currentWindow: true})
   const activeTab = tabs[0]
   const res = await browser.tabs.sendMessage(activeTab.id, 'foo')
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', async function(evt) {
   // inthe.am api keys are 40 characters long, numbers and lower-case letters
   const apiKeyPattern = /^[a-z\d]{40}$/
   const selectedText = await getSeletedText(activeTab)
-  const store = browser.storage.local
+  const store = browser.storage.sync
   const storedSettings = await store.get()
 
   // Check if we're on the inthe.am configuration page

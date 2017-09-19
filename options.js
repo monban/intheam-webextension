@@ -37,7 +37,7 @@ function flashMessage(element, message) {
 document.addEventListener("DOMContentLoaded", () => {
   // Load current settings from local store
   const form = document.getElementById('optionsForm')
-  const store = browser.storage.local
+  const store = browser.storage.sync
   const messageArea = document.getElementById('message_area')
   loadSettings(store)
 

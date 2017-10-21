@@ -1,3 +1,5 @@
+'use strict'
+
 const createTask = async taskdata => {
   const result = await browser.storage.sync.get('api_key')
   if (!result.api_key) {

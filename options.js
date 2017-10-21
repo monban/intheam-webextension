@@ -1,3 +1,5 @@
+'use strict'
+
 const loadSettings = async storageArea => {
   const defaultSettings = {
     default_tags: 'FromTheWeb'

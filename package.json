@@ -1,0 +1,27 @@
+{
+  "name": "intheam-webextension",
+  "version": "1.0.0",
+  "description": "Webextension allowing creation of tasks on inthe.am from your browser.",
+  "repository": "https://github.com/monban/intheam-webextension.git",
+  "author": "Ian Flynn <himitsu.monban@gmail.com>",
+  "license": "GPL-3.0",
+   "devDependencies": {
+    "chai": "^4.1.2",
+    "eslint": "^4.7.2",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "mocha": "^3.5.3",
+    "mocha-eslint": "^4.1.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "webextensions": true
+    },
+    "extends": "standard"
+  },
+  "private": false
+}

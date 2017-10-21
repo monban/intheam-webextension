@@ -1,4 +1,4 @@
-async function loadSettings(storageArea) {
+const loadSettings = async storageArea => {
   const defaultSettings = {
     default_tags: 'FromTheWeb'
   }
@@ -13,7 +13,7 @@ async function loadSettings(storageArea) {
   }
 }
 
-async function saveSettings(formElement, storageArea) {
+const saveSettings = async (formElement, storageArea) => {
   let formdata = {}
   for (let element of formElement.elements) {
     formdata[element.name] = element.value
@@ -21,20 +21,20 @@ async function saveSettings(formElement, storageArea) {
   await storageArea.set(formdata)
 }
 
-function fadeOut(element) {
+const fadeOut = element => {
   element.style.opacity -= 0.1
   if (element.style.opacity > 0) {
-    setTimeout(() => fadeOut(element), 25);
+    setTimeout(() => fadeOut(element), 25)
   }
 }
 
-function flashMessage(element, message) {
+const flashMessage = (element, message) => {
   element.innerHTML = message
   element.style.opacity = 1
   setTimeout(() => fadeOut(element), 500)
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
   // Load current settings from local store
   const form = document.getElementById('optionsForm')
   const store = browser.storage.sync
@@ -48,4 +48,3 @@ document.addEventListener("DOMContentLoaded", () => {
     flashMessage(messageArea, 'Saved')
   })
 })
-

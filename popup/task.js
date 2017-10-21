@@ -1,24 +1,24 @@
-async function createTask(taskdata) {
+const createTask = async taskdata => {
   const result = await browser.storage.sync.get('api_key')
   if (!result.api_key) {
     browser.runtime.openOptionsPage()
     return
   }
-  let xhr = new XMLHttpRequest();
+  let xhr = new XMLHttpRequest()
   xhr.addEventListener('loadend', showResult)
-  xhr.open('POST', 'https://inthe.am/api/v2/tasks/', true);
-  xhr.setRequestHeader("Authorization", "Token " + result.api_key);
-  xhr.setRequestHeader("Content-Type", "application/json");
-  xhr.send(JSON.stringify(taskdata));
+  xhr.open('POST', 'https://inthe.am/api/v2/tasks/', true)
+  xhr.setRequestHeader('Authorization', 'Token ' + result.api_key)
+  xhr.setRequestHeader('Content-Type', 'application/json')
+  xhr.send(JSON.stringify(taskdata))
   showPending()
 }
 
-async function getSeletedText(tab) {
+const getSeletedText = async tab => {
   const res = await browser.tabs.sendMessage(tab.id, 'foo')
   return res.data
 }
 
-async function populateFields() {
+const populateFields = async () => {
   const defaults = await browser.storage.sync.get(['default_project', 'default_tags'])
   const tabs = await browser.tabs.query({active: true, currentWindow: true})
   const activeTab = tabs[0]
@@ -32,7 +32,7 @@ async function populateFields() {
   }
 }
 
-function showResult(evt) {
+const showResult = evt => {
   const submit = document.getElementById('submit_button')
   submit.value = 'Done'
 
@@ -50,27 +50,27 @@ function showResult(evt) {
   document.body.appendChild(resultElement)
 }
 
-function showPending() {
+const showPending = () => {
   const submit = document.getElementById('submit_button')
   submit.disabled = true
   submit.value = 'Sending...'
 }
 
-function submitForm(evt) {
-    evt.preventDefault()
-    let taskdata = {
-      description: document.getElementById('task_description').value,
-      project: document.getElementById('task_project').value,
-      tags: document.getElementById('task_tags').value.split(/[^\w]+/)
-    }
-    createTask(taskdata)
+const submitForm = evt => {
+  evt.preventDefault()
+  let taskdata = {
+    description: document.getElementById('task_description').value,
+    project: document.getElementById('task_project').value,
+    tags: document.getElementById('task_tags').value.split(/[^\w]+/)
+  }
+  createTask(taskdata)
 }
 
-function importApiKey(key, store) {
+const importApiKey = (key, store) => {
   store.set({api_key: key})
 }
 
-document.addEventListener('DOMContentLoaded', async function(evt) {
+document.addEventListener('DOMContentLoaded', async evt => {
   const activeTab = (await browser.tabs.query({active: true}))[0]
   const apiKeyUrl = /^https:\/\/inthe\.am\/configure.*/
   const intheamConfigurationPage = 'https://inthe.am/configure#api'
@@ -107,4 +107,3 @@ document.addEventListener('DOMContentLoaded', async function(evt) {
   // Override the form submit to store the settings
   formElement.addEventListener('submit', submitForm)
 })
-

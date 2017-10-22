@@ -1,5 +1,32 @@
 'use strict'
 
+const promisify = (fn, args) => new Promise(resolve => {
+  const argsArray = Array.from(args)
+  const resolveCallback = function (result) { resolve(result) }
+  argsArray.push(resolveCallback)
+  fn.apply(this, argsArray)
+})
+
+// Emulate proper browser behavior in Chrome
+if (typeof browser === 'undefined') {
+  window.browser = {
+    tabs: {
+      create: function () { return chrome.tabs.create.apply(this, arguments) },
+      query: function () { return promisify(chrome.tabs.query, arguments) },
+      sendMessage: function () { return promisify(chrome.tabs.sendMessage, arguments) }
+    },
+    storage: {
+      sync: {
+        get: function () { return promisify(chrome.storage.sync.get, arguments) },
+        set: function () { return chrome.storage.sync.set.apply(this, arguments) }
+      }
+    },
+    runtime: {
+      openOptionsPage: function () { return chrome.runtime.openOptionsPage.apply(this, arguments) }
+    }
+  }
+}
+
 const createTask = async taskdata => {
   const result = await browser.storage.sync.get('api_key')
   if (!result.api_key) {
@@ -15,17 +42,16 @@ const createTask = async taskdata => {
   showPending()
 }
 
-const getSeletedText = async tab => {
-  const res = await browser.tabs.sendMessage(tab.id, 'foo')
-  return res.data
+const getSelectedText = async tab => {
+  const result = await browser.tabs.sendMessage(tab.id, 'foo', {})
+  return result.data
 }
 
 const populateFields = async () => {
   const defaults = await browser.storage.sync.get(['default_project', 'default_tags'])
   const tabs = await browser.tabs.query({active: true, currentWindow: true})
   const activeTab = tabs[0]
-  const res = await browser.tabs.sendMessage(activeTab.id, 'foo')
-  document.getElementById('task_description').value = res.data
+  document.getElementById('task_description').value = await getSelectedText(activeTab)
   if (defaults.default_project) {
     document.getElementById('task_project').value = defaults.default_project
   }
@@ -81,7 +107,7 @@ document.addEventListener('DOMContentLoaded', async evt => {
 
   // inthe.am api keys are 40 characters long, numbers and lower-case letters
   const apiKeyPattern = /^[a-z\d]{40}$/
-  const selectedText = await getSeletedText(activeTab)
+  const selectedText = await getSelectedText(activeTab)
   const store = browser.storage.sync
   const storedSettings = await store.get()
 

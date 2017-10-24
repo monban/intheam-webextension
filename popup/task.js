@@ -1,18 +1,23 @@
 'use strict'
 
 const createTask = async taskdata => {
-  const result = await browser.storage.sync.get('api_key')
-  if (!result.api_key) {
+  const storageResult = await browser.storage.sync.get('api_key')
+  const intheamTaskApiEndpoint = 'https://inthe.am/api/v2/tasks/'
+  if (!storageResult.api_key) {
     browser.runtime.openOptionsPage()
     return
   }
-  let xhr = new XMLHttpRequest()
-  xhr.addEventListener('loadend', showResult)
-  xhr.open('POST', 'https://inthe.am/api/v2/tasks/', true)
-  xhr.setRequestHeader('Authorization', 'Token ' + result.api_key)
-  xhr.setRequestHeader('Content-Type', 'application/json')
-  xhr.send(JSON.stringify(taskdata))
+  const headers = new Headers({
+    'Authorization': 'Token ' + storageResult.api_key,
+    'Content-Type': 'application/json'
+  })
+  const result = fetch(intheamTaskApiEndpoint, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify(taskdata)
+  }).then(showResult)
   showPending()
+  return result
 }
 
 const getSelectedText = async tab => {
@@ -33,19 +38,18 @@ const populateFields = async () => {
   }
 }
 
-const showResult = evt => {
+const showResult = response => {
   const submit = document.getElementById('submit_button')
   submit.value = 'Done'
 
   let resultElement = document.createElement('p')
-  const xhr = evt.target
-  if (xhr.status === 200) {
+  if (response.ok) {
     resultElement.classList.add('success')
     let resultText = document.createTextNode('Task created')
     resultElement.appendChild(resultText)
   } else {
     resultElement.classList.add('error')
-    let resultText = document.createTextNode(xhr.statusText)
+    let resultText = document.createTextNode(response.statusText)
     resultElement.appendChild(resultText)
   }
   document.body.appendChild(resultElement)

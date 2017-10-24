@@ -1,23 +1,5 @@
 'use strict'
 
-const promisify = (fn, args) => new Promise(resolve => {
-  const argsArray = Array.from(args)
-  const resolveCallback = function (result) { resolve(result) }
-  argsArray.push(resolveCallback)
-  fn.apply(this, argsArray)
-})
-
-if (typeof browser === 'undefined') {
-  window.browser = {
-    storage: {
-      sync: {
-        get: function () { return promisify(chrome.storage.sync.get, arguments) },
-        set: function () { return chrome.storage.sync.set.apply(this, arguments) }
-      }
-    }
-  }
-}
-
 const loadSettings = async storageArea => {
   const defaultSettings = {
     default_tags: 'FromTheWeb'

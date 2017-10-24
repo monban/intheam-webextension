@@ -39,7 +39,7 @@ const showResult = evt => {
 
   let resultElement = document.createElement('p')
   const xhr = evt.target
-  if (xhr.status == 200) {
+  if (xhr.status === 200) {
     resultElement.classList.add('success')
     let resultText = document.createTextNode('Task created')
     resultElement.appendChild(resultText)

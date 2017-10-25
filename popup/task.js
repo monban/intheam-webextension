@@ -1,6 +1,7 @@
 'use strict'
 
 const createTask = async taskdata => {
+  showPending()
   const storageResult = await browser.storage.sync.get('api_key')
   const intheamTaskApiEndpoint = 'https://inthe.am/api/v2/tasks/'
   if (!storageResult.api_key) {
@@ -16,7 +17,6 @@ const createTask = async taskdata => {
     headers: headers,
     body: JSON.stringify(taskdata)
   }).then(showResult)
-  showPending()
   return result
 }
 

@@ -111,4 +111,5 @@ const createTaskManager = function (brwsr) {
 }
 
 const taskManager = createTaskManager(browser)
-document.addEventListener('DOMContentLoaded', taskManager.init)
+const init = taskManager.init.bind(taskManager)
+document.addEventListener('DOMContentLoaded', init)

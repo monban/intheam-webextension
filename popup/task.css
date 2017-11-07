@@ -1,5 +1,5 @@
 body {
-  width: 40em;
+  width: 20em;
 }
 .error {
   background-color: #EFABAB;
@@ -13,4 +13,10 @@ body {
 }
 #setup-instructions {
   display: none;
+}
+input {
+  width: 100%;
+}
+input[type="submit"] {
+  width: auto;
 }

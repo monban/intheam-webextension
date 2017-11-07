@@ -2,7 +2,7 @@
 
 const createTaskManager = function (brwsr) {
   return {
-    createTask: async function taskdata () {
+    createTask: async function (taskdata) {
       this.showPending()
       const storageResult = await brwsr.storage.sync.get('api_key')
       const intheamTaskApiEndpoint = 'https://inthe.am/api/v2/tasks/'

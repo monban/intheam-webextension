@@ -105,7 +105,8 @@ const createTaskManager = function (brwsr) {
 
       this.populateFields()
       // Override the form submit to store the settings
-      formElement.addEventListener('submit', this.submitForm)
+      const submitForm = this.submitForm.bind(this)
+      formElement.addEventListener('submit', submitForm)
     }
   }
 }

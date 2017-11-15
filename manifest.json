@@ -16,6 +16,15 @@
     {
       "matches": ["<all_urls>"],
       "js": ["content.js"]
+    },
+    {
+      "matches": ["https://inthe.am/configure*"],
+      "js": [
+        "chrome_shim.js",
+        "config_page.js"
+      ],
+      "css": ["config_page.css"],
+      "run_at": "document_idle"
     }
   ],
   "options_ui": {

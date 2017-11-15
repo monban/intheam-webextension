@@ -83,6 +83,8 @@ const createTaskManager = function (brwsr) {
       const store = brwsr.storage.sync
       const storedSettings = await store.get()
 
+      document.getElementById('options_page_link').addEventListener('click', () => brwsr.runtime.openOptionsPage())
+
       // Check if we're on the inthe.am configuration page
       // and have the api key selected
       if (apiKeyUrl.test(activeTab.url) && apiKeyPattern.test(selectedText)) {
@@ -94,10 +96,6 @@ const createTaskManager = function (brwsr) {
 
       // If we don't have a saved API key, display instructions
       if (!storedSettings.api_key) {
-        brwsr.tabs.create({
-          active: true,
-          url: intheamConfigurationPage
-        })
         instructionsElm.style.display = 'block'
         formElement.style.display = 'none'
         return

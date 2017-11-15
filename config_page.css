@@ -1,0 +1,19 @@
+#browser_extension_popup {
+  position: fixed;
+  bottom: 2em;
+  right: 2em;
+  width: 24em;
+  height: auto;
+  z-index: 100;
+  background: rgb(51,51,51);
+  color: white;
+  padding: 1em;
+}
+
+#browser_extension_popup a {
+  margin-right: 1em;
+}
+
+#browser_extension_popup h3 {
+  color: white;
+}

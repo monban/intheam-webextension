@@ -22,8 +22,13 @@ const createTaskManager = function (brwsr) {
       return result
     },
     getSelectedText: async function (tab) {
-      const result = await brwsr.tabs.sendMessage(tab.id, 'foo', {})
-      return result.data
+      try {
+        const result = await brwsr.tabs.sendMessage(tab.id, 'foo', {})
+        return result.data
+      } catch (err) {
+        console.error('error occured communicating with background script:', err)
+        return ''
+      }
     },
     populateFields: async function () {
       const defaults = await brwsr.storage.sync.get(['default_project', 'default_tags'])

@@ -1,16 +1,11 @@
 'use strict'
 
 const loadSettings = async storageArea => {
-  const defaultSettings = {
-    default_tags: 'FromTheWeb'
-  }
-
   const storedSettings = await storageArea.get()
-  const settings = Object.assign({}, defaultSettings, storedSettings)
-  for (let key in settings) {
+  for (let key in storedSettings) {
     let element = document.getElementById(key)
     if (element) {
-      element.value = settings[key]
+      element.value = storedSettings[key]
     }
   }
 }

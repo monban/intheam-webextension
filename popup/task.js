@@ -99,10 +99,11 @@ const createTaskManager = function (brwsr) {
         return
       }
 
-      // If we don't have a saved API key, display instructions
+      // If we don't have a saved API key, go to the app options
       if (!storedSettings.api_key) {
-        instructionsElm.style.display = 'block'
+        brwsr.runtime.openOptionsPage()
         formElement.style.display = 'none'
+        window.close()
         return
       }
 

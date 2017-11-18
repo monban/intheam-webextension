@@ -11,9 +11,6 @@ body {
   text-align: center;
   padding: 0.5em;
 }
-#setup-instructions {
-  display: none;
-}
 input {
   width: 100%;
 }

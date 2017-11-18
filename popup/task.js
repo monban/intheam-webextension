@@ -76,28 +76,11 @@ const createTaskManager = function (brwsr) {
       store.set({api_key: key})
     },
     init: async function (event) {
-      const activeTab = (await brwsr.tabs.query({active: true}))[0]
-      const apiKeyUrl = /^https:\/\/inthe\.am\/configure.*/
-      const intheamConfigurationPage = 'https://inthe.am/configure#api'
-      const instructionsElm = document.getElementById('setup-instructions')
       const formElement = document.getElementById('task_form')
 
       // inthe.am api keys are 40 characters long, numbers and lower-case letters
-      const apiKeyPattern = /^[a-z\d]{40}$/
-      const selectedText = await this.getSelectedText(activeTab)
       const store = brwsr.storage.sync
       const storedSettings = await store.get()
-
-      document.getElementById('options_page_link').addEventListener('click', () => brwsr.runtime.openOptionsPage())
-
-      // Check if we're on the inthe.am configuration page
-      // and have the api key selected
-      if (apiKeyUrl.test(activeTab.url) && apiKeyPattern.test(selectedText)) {
-        this.importApiKey(selectedText, store)
-        document.body.innerHTML = 'API key saved'
-        brwsr.runtime.openOptionsPage()
-        return
-      }
 
       // If we don't have a saved API key, go to the app options
       if (!storedSettings.api_key) {

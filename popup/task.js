@@ -65,11 +65,29 @@ const createTaskManager = function (brwsr) {
     },
     submitForm: function (evt) {
       evt.preventDefault()
-      let taskdata = {
-        description: document.getElementById('task_description').value,
-        project: document.getElementById('task_project').value,
-        tags: document.getElementById('task_tags').value.split(/[^\w]+/)
+      const getField = field => {
+        const fieldData = document.getElementById('task_' + field)
+        if (fieldData && fieldData.value !== '') {
+          return {description: fieldData.value}
+        } else {
+          return null
+        }
       }
+
+      const taskdata = Object.assign(
+        {},
+        getField('description'),
+        getField('project'),
+        (() => {
+          const tagdata = document.getElementById('task_tags')
+          if (tagdata && tagdata.value !== '') {
+            const tags = tagdata.value.split(/[^\w]+/)
+            return {tags: tags}
+          }
+          return null
+        })()
+      )
+
       this.createTask(taskdata)
     },
     importApiKey: function (key, store) {

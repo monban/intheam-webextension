@@ -2,6 +2,9 @@
 
 const loadSettings = async storageArea => {
   const storedSettings = await storageArea.get()
+  if (!storedSettings.api_key)
+    document.getElementById('no_api_key_alert').style.display = 'block'
+
   for (let key in storedSettings) {
     let element = document.getElementById(key)
     if (element) {

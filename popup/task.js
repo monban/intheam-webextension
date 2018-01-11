@@ -68,7 +68,9 @@ const createTaskManager = function (brwsr) {
       const getField = field => {
         const fieldData = document.getElementById('task_' + field)
         if (fieldData && fieldData.value !== '') {
-          return {description: fieldData.value}
+          let fieldObject = {}
+          fieldObject[field] = fieldData.value
+          return fieldObject
         } else {
           return null
         }

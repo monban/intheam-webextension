@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "inthe.am integration",
   "description": "Create inthe.am tasks directly from your browser",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "applications": {
     "gecko": {
       "id": "{3c55ec9a-d485-45b1-9fa1-6bf885cbbbf9}"
